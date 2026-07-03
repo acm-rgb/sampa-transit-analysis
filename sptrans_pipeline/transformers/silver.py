@@ -17,13 +17,19 @@ def transform(data, *args, **kwargs):
                 'sentido': linha.get('sl'),
                 'prefixo_veiculo': veiculo.get('p'),
                 'acessivel': veiculo.get('a'),
-                'latitude': veiculo.get('py'),
-                'longitude': veiculo.get('px'),
+                'latitude': float(veiculo.get('py', 0)),
+                'longitude': float(veiculo.get('px', 0)),
                 'horario_atualizacao_gps': veiculo.get('ta'),
                 'horario_api': hr_api,
                 'extracted_at': extracted_at
             })
             
     df = pd.DataFrame(records)
-    print(f"Transformados {len(df)} registros de veículos individuais.")
+    
+    # Remove GPS falho (0,0)
+    df = df[(df['latitude'] != 0.0) & (df['longitude'] != 0.0)]
+    
+    # Cria coluna apenas com a data (YYYY-MM-DD) para particionamento
+    df['data_extracao'] = pd.to_datetime(df['extracted_at']).dt.date.astype(str)
+    
     return df

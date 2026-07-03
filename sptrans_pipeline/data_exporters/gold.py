@@ -9,7 +9,4 @@ def export_data(df: DataFrame, *args, **kwargs):
     path = '/home/src/sptrans_gold'
     os.makedirs(path, exist_ok=True)
     
-    # Salva particionado no disco local para acumular histórico sem sobrescrever
-    df.to_parquet(path, partition_cols=['extracted_at'], engine='pyarrow')
-    
-    print(f"Exportados {len(df)} registros para {path}.")
+    df.to_parquet(path, partition_cols=['data_extracao'], engine='pyarrow')
