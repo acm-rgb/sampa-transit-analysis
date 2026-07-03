@@ -1,0 +1,23 @@
+services:
+  mage:
+    image: mageai/mageai:latest
+    command: mage start sptrans_pipeline
+    env_file:
+      - .env
+    ports:
+      - "6789:6789"
+    volumes:
+      - .:/home/src
+    environment:
+      MAGE_DATABASE_CONNECTION_URL: postgresql://mage:mage@db:5432/mage
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: mage
+      POSTGRES_PASSWORD: mage
+      POSTGRES_DB: mage
+    volumes:
+      - ./mage_data:/var/lib/postgresql/data

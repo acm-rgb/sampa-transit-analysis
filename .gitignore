@@ -1,0 +1,18 @@
+# Segurança
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Dados e Logs (Docker/Mage)
+mage_data/
+*.log
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
